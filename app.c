@@ -90,6 +90,10 @@ void lcd_set_pos(int posy, int posx) {
     delay(1);
 }
 
+void digitalWritePin(int pin, char value) {
+   digitalWrite(pin, value ? 1 : 0);
+}
+
 void lcd_send(unsigned char type, unsigned char c) {
     if (type == CMD)
         digitalWrite(LCD_PIN_RS, 0); /* RS=0: Befehl folgt ... ******/
@@ -97,25 +101,10 @@ void lcd_send(unsigned char type, unsigned char c) {
         digitalWrite(LCD_PIN_RS, 1); /* RS=1: Daten folgen ... ******/
 
     /* (1) HIGH NIBBLE wird gesendet ******/
-    if (bit_is_set(c, 7))
-        digitalWrite(LCD_PIN_D7, 1);
-    else
-        digitalWrite(LCD_PIN_D7, 0);
-
-    if (bit_is_set(c, 6))
-        digitalWrite(LCD_PIN_D6, 1);
-    else
-        digitalWrite(LCD_PIN_D6, 0);
-
-    if (bit_is_set(c, 5))
-        digitalWrite(LCD_PIN_D5, 1);
-    else
-        digitalWrite(LCD_PIN_D5, 0);
-
-    if (bit_is_set(c, 4))
-        digitalWrite(LCD_PIN_D4, 1);
-    else
-        digitalWrite(LCD_PIN_D4, 0);
+    digitalWritePin(LCD_PIN_D7, bit_is_set(c, 7));
+    digitalWritePin(LCD_PIN_D6, bit_is_set(c, 6));
+    digitalWritePin(LCD_PIN_D5, bit_is_set(c, 5));
+    digitalWritePin(LCD_PIN_D4, bit_is_set(c, 4));
 
     /* Flanke zur Übernahme der Daten senden ... ******/
     digitalWrite(LCD_PIN_E, 1);
@@ -123,27 +112,12 @@ void lcd_send(unsigned char type, unsigned char c) {
     digitalWrite(LCD_PIN_E, 0);
 
     /* (2) LOW NIBBLE wird gesendet ******/
-    if (bit_is_set(c, 3))
-        digitalWrite(LCD_PIN_D7, 1);
-    else
-        digitalWrite(LCD_PIN_D7, 0);
+    digitalWritePin(LCD_PIN_D7, bit_is_set(c, 3));
+    digitalWritePin(LCD_PIN_D6, bit_is_set(c, 2));
+    digitalWritePin(LCD_PIN_D5, bit_is_set(c, 1));
+    digitalWritePin(LCD_PIN_D4, bit_is_set(c, 0));
 
-    if (bit_is_set(c, 2))
-        digitalWrite(LCD_PIN_D6, 1);
-    else
-        digitalWrite(LCD_PIN_D6, 0);
-
-    if (bit_is_set(c, 1))
-        digitalWrite(LCD_PIN_D5, 1);
-    else
-        digitalWrite(LCD_PIN_D5, 0);
-
-    if (bit_is_set(c, 0))
-        digitalWrite(LCD_PIN_D4, 1);
-    else
-        digitalWrite(LCD_PIN_D4, 0);
-
-    /* Flanke zur Übernahme der Daten senden ... ******/
+    /* Flanke zur uebernahme der Daten senden ... ******/
     digitalWrite(LCD_PIN_E, 1);
     delay(1);
     digitalWrite(LCD_PIN_E, 0);
