@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
     delay(5);
     if (argc == 2) {
         if (strlen(argv[1]) > 2) {
+            lcd_write("ERR: argv[1] > 2");
             return 1;
         }
         char txt[4];
