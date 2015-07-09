@@ -1,4 +1,4 @@
-#define bit_is_set(sfr, bit) (sfr & (1 << bit))
+#define bit_is_set(sfr, bit) ((sfr & (1 << bit)) ? 1 : 0)
 
 #include "app.h"
 #include <wiringPi.h>
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
             }
         }
 
-//	lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
+        // lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
     }
     lcd_set_pos(3, 15);
     lcd_send(DATA, 0);
@@ -93,9 +93,7 @@ void lcd_set_pos(int posy, int posx) {
     delay(1);
 }
 
-void digitalWritePin(int pin, char value) {
-   digitalWrite(pin, value ? 1 : 0);
-}
+const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
 
 void lcd_send(unsigned char type, unsigned char c) {
     if (type == CMD)
@@ -104,26 +102,17 @@ void lcd_send(unsigned char type, unsigned char c) {
         digitalWrite(LCD_PIN_RS, 1); /* RS=1: Daten folgen ... ******/
 
     /* (1) HIGH NIBBLE wird gesendet ******/
-    digitalWritePin(LCD_PIN_D7, bit_is_set(c, 7));
-    digitalWritePin(LCD_PIN_D6, bit_is_set(c, 6));
-    digitalWritePin(LCD_PIN_D5, bit_is_set(c, 5));
-    digitalWritePin(LCD_PIN_D4, bit_is_set(c, 4));
+    for(int i = 7; i >= 0; --i) {
+        char current_pin = data_pins[i % (sizeof(data_pins) / sizeof(char))];
+        digitalWrite(current_pin, bit_is_set(c, i));
 
-    /* Flanke zur Übernahme der Daten senden ... ******/
-    digitalWrite(LCD_PIN_E, 1);
-    delay(1);
-    digitalWrite(LCD_PIN_E, 0);
-
-    /* (2) LOW NIBBLE wird gesendet ******/
-    digitalWritePin(LCD_PIN_D7, bit_is_set(c, 3));
-    digitalWritePin(LCD_PIN_D6, bit_is_set(c, 2));
-    digitalWritePin(LCD_PIN_D5, bit_is_set(c, 1));
-    digitalWritePin(LCD_PIN_D4, bit_is_set(c, 0));
-
-    /* Flanke zur uebernahme der Daten senden ... ******/
-    digitalWrite(LCD_PIN_E, 1);
-    delay(1);
-    digitalWrite(LCD_PIN_E, 0);
+        if((i % 4) == 0) {
+            /* Flanke zur Übernahme der Daten senden ... ******/
+            digitalWrite(LCD_PIN_E, 1);
+            delay(1);
+            digitalWrite(LCD_PIN_E, 0);
+        }
+    }
 
     /* (3) Auf den LCD Controller warten ...******/
     delay(5);
