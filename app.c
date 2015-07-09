@@ -41,14 +41,14 @@ int main(int argc, char *argv[]) {
         char articleName[16 - 2];
         sprintf(newBalance, "%2sE\0", argv[1]);
         sprintf(price, "%2sE\0", argv[2]);
-        sprintf(articleName, "%13s\0", argv[3]);
+        sprintf(articleName, "%-12s\0", argv[3]);
         lcd_set_pos(1, 0);
         lcd_write(articleName);
-        lcd_set_pos(1, 16 - 3);
+        lcd_set_pos(1, 13);
         lcd_write(price);
         lcd_set_pos(2, 0);
         lcd_write("New Balance:");
-        lcd_set_pos(2, 16 - 4);
+        lcd_set_pos(2, 13);
         lcd_write(newBalance);
     } else {
 	lcd_clear();
