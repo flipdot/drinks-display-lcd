@@ -37,10 +37,12 @@ int main(int argc, char *argv[]) {
         char price[4];
         sprintf(newBalance, "%2sE\0", argv[1]);
         sprintf(price, "%2sE\0", argv[2]);
-        char articleName[16];
-        sprintf(articleName, "%15s\0", argv[3]);
+        char articleName[16 - 2];
+        sprintf(articleName, "%13s\0", argv[3]);
         lcd_set_pos(1, 0);
         lcd_write(articleName);
+        lcd_set_pos(1, 16 - 3);
+        lcd_write(price);
         lcd_set_pos(2, 0);
         lcd_write("New Balance:");
         lcd_set_pos(2, 16 - 3);
@@ -60,6 +62,7 @@ void lcd_write(char *t) {
 
 void lcd_set_pos(int posy, int posx) {
     lcd_send(CMD, LCD_SETDDRAM + posx + 0x40 * posy);
+    delay(1);
 }
 
 void lcd_send(unsigned char type, unsigned char c) {
