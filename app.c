@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
         lcd_set_pos(2, 13);
         lcd_write(newBalance);
     } else {
-	lcd_clear();
+	    lcd_clear();
 
         while (1) {
 
@@ -103,7 +103,7 @@ void lcd_send(unsigned char type, unsigned char c) {
 
     /* (1) HIGH NIBBLE wird gesendet ******/
     for(int i = 7; i >= 0; --i) {
-        char current_pin = data_pins[i % (sizeof(data_pins) / sizeof(char))];
+        char current_pin = data_pins[(7 - i) % (sizeof(data_pins) / sizeof(char))];
         digitalWrite(current_pin, bit_is_set(c, i));
 
         if((i % LCD_ROWS) == 0) {
