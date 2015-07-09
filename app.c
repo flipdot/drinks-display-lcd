@@ -10,20 +10,41 @@ int main(int argc, char *argv[]) {
         lcd_init();
         return 0;
     }
-    lcd_clear();
     delay(5);
     if (argc == 2) {
+        lcd_clear();
         if (strlen(argv[1]) > 2) {
             lcd_write("ERR: argv[1] > 2");
             return 1;
         }
-        char txt[4];
-        sprintf(txt, "%2sE", argv[1]);
-        txt[3] = '\0';
-        printf("%s\n", txt);
+        char curBalance[4];
+        sprintf(curBalance, "%2sE\0", argv[1]);
         lcd_write("Cur Balance:");
         lcd_set_pos(0, 16 - 3);
-        lcd_write(txt);
+        lcd_write(curBalance);
+    } else if (argc == 4) {
+        if (strlen(argv[1]) > 2) {
+            lcd_clear();
+            lcd_write("ERR: argv[1] > 2");
+            return 1;
+        }
+        if (strlen(argv[2]) > 2) {
+            lcd_clear();
+            lcd_write("ERR: argv[2] > 2");
+            return 1;
+        }
+        char newBalance[4];
+        char price[4];
+        sprintf(newBalance, "%2sE\0", argv[1]);
+        sprintf(price, "%2sE\0", argv[2]);
+        char articleName[16];
+        sprintf(articleName, "%15s\0", argv[3]);
+        lcd_set_pos(1, 0);
+        lcd_write(articleName);
+        lcd_set_pos(2, 0);
+        lcd_write("New Balance:");
+        lcd_set_pos(2, 16 - 3);
+        lcd_write(newBalance);
     }
     return 0;
 }
