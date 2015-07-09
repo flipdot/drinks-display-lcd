@@ -5,4 +5,4 @@ app: app.c
 clean:
 	-rm app
 
-CFLAGS=-Wall -Wextra -pedantic
+CFLAGS=-std=c99 -lwiringPi -Wall -Wextra -pedantic
