@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
         char txt[5];
         sprintf(txt, "%dE", argv[1]);
         txt[4] = '\0';
+        printf("%s\n", txt);
         lcd_write(txt);
     }
     return 0;
