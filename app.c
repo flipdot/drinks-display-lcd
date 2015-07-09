@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
             }
         }
 
-//	lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
+        // lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
     }
     return 0;
 }
@@ -91,6 +91,7 @@ void lcd_set_pos(int posy, int posx) {
 }
 
 const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
+
 void lcd_send(unsigned char type, unsigned char c) {
     if (type == CMD)
         digitalWrite(LCD_PIN_RS, 0); /* RS=0: Befehl folgt ... ******/
@@ -102,8 +103,7 @@ void lcd_send(unsigned char type, unsigned char c) {
         char current_pin = data_pins[i % (sizeof(data_pins) / sizeof(char))];
         digitalWrite(current_pin, bit_is_set(c, i));
 
-        if((i % 4) == 0)
-        {
+        if((i % 4) == 0) {
             /* Flanke zur Übernahme der Daten senden ... ******/
             digitalWrite(LCD_PIN_E, 1);
             delay(1);
