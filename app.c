@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     delay(5);
+    lcd_send(CMD, LCD_CURSOROFF);
     if (argc == 2) {
         lcd_clear();
         if (strlen(argv[1]) > 2) {
@@ -35,9 +36,9 @@ int main(int argc, char *argv[]) {
         }
         char newBalance[4];
         char price[4];
+        char articleName[16 - 2];
         sprintf(newBalance, "%2sE\0", argv[1]);
         sprintf(price, "%2sE\0", argv[2]);
-        char articleName[16 - 2];
         sprintf(articleName, "%13s\0", argv[3]);
         lcd_set_pos(1, 0);
         lcd_write(articleName);
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]) {
         lcd_write(price);
         lcd_set_pos(2, 0);
         lcd_write("New Balance:");
-        lcd_set_pos(2, 16 - 3);
+        lcd_set_pos(3, 16 - 3);
         lcd_write(newBalance);
     }
     return 0;

@@ -21,6 +21,14 @@
 #define CMD           0
 #define DATA          1
 
+// flags for display on/off control
+#define LCD_DISPLAYON 0x04
+#define LCD_DISPLAYOFF 0x00
+#define LCD_CURSORON 0x02
+#define LCD_CURSOROFF 0x00
+#define LCD_BLINKON 0x01
+#define LCD_BLINKOFF 0x00
+
 void lcd_clear(void);
 void lcd_init(void);
 void lcd_send(unsigned char type, unsigned char c);
