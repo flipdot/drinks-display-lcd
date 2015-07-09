@@ -165,12 +165,12 @@ void lcd_init() {
     lcd_clear();
 }
 
-void lcd_generate_char(uint8_t code, const uint8_t *data) {
+void lcd_generate_char(int code, const int *data) {
     // Startposition des Zeichens einstellen
     lcd_send(CMD, 0x40|(code<<3));
 
     // Bitmuster übertragen
-    for (uint8_t i=0; i<8; i++)
+    for (int i=0; i<8; i++)
     {
         lcd_send(DATA, data[i]);
     }
