@@ -9,6 +9,7 @@ int main(int argc, char *argv[]) {
     wiringPiSetup();
     if (argc == 2 && strcmp(argv[1], "--init") == 0) {
         lcd_init();
+        lcd_generate_chars();
         return 0;
     }
     delay(5);
@@ -69,6 +70,8 @@ int main(int argc, char *argv[]) {
 
         // lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
     }
+    lcd_set_pos(3, 15);
+    lcd_send(DATA, 0);
     return 0;
 }
 
@@ -160,4 +163,33 @@ void lcd_init() {
     lcd_send(CMD, 0x06);
     lcd_send(CMD, LCD_ON);
     lcd_clear();
+}
+
+void lcd_generate_char(uint8_t code, const uint8_t *data) {
+    // Startposition des Zeichens einstellen
+    lcd_send(CMD, 0x40|(code<<3));
+
+    // Bitmuster übertragen
+    for (uint8_t i=0; i<8; i++)
+    {
+        lcd_send(DATA, data[i]);
+    }
+}
+
+void lcd_generate_chars() {
+    lcd_send(CMD, 0x40|(0<<3));
+    // custom character data: °, Battery empty, Battery..., Battery full
+    uint8_t data[8][8] = {
+            {0b00110, 0b01001, 0b01001, 0b00110, 0b00000, 0b00000, 0b00000, 0b00000},
+            {0b01110, 0b11011, 0b10101, 0b10101, 0b10001, 0b10101, 0b10001, 0b11111},
+            {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111},
+            {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111, 0b11111},
+            {0b01110, 0b11011, 0b10001, 0b10001, 0b11111, 0b11111, 0b11111, 0b11111},
+            {0b01110, 0b11011, 0b10001, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
+            {0b01110, 0b11011, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
+            {0b01110, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
+    };
+    for (uint8_t i=0; i<8; i++) {
+        lcd_generate_char(i, data[i]);
+    }
 }
