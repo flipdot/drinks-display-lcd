@@ -84,18 +84,14 @@ void lcd_write(char *t) {
     }
 }
 
-const char display_offsets[] = { 0x00, 0x40, 0x10, 0x50 };
-
 void lcd_set_pos(int posy, int posx) {
-    posx %= LCD_COLUMNS;
-    posy %= (sizeof(display_offsets) / sizeof(char));
+    posx %= LCD_COLUMNS; // Maybe just return if the position is out of bounds?
+    posy %= LCD_ROWS;
     lcd_send(CMD, LCD_SETDDRAM | (posx | display_offsets[posy]));
     delay(1);
 }
 
-const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
-
-void lcd_send(unsigned char type, unsigned char c) {
+void lcd_send(lcd_message_type type, unsigned char c) {
     if (type == CMD)
         digitalWrite(LCD_PIN_RS, 0); /* RS=0: Befehl folgt ... ******/
     else
@@ -139,7 +135,7 @@ void lcd_init() {
     // wait for lcd to be ready
     delay(50);
 
-   // configure 4 bit mode ------Function-Set 1
+    // configure 4 bit mode ------Function-Set 1
     digitalWrite(LCD_PIN_D5, 1);
     digitalWrite(LCD_PIN_D4, 0);
 

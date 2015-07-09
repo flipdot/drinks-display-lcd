@@ -1,3 +1,6 @@
+#ifndef APP_H
+#define APP_H
+
 // #define LCDPORT       PORTD
 // #define LCDDDR        DDRD
 // #define LCDDDR_PORT   0xFB
@@ -18,8 +21,10 @@
 
 /***** HILFSDEFINITIONEN *****/
 
-#define CMD           0
-#define DATA          1
+typedef enum {
+    CMD = 0,
+    DATA = 1
+} lcd_message_type;
 
 // flags for display on/off control
 #define LCD_DISPLAYON 0x04
@@ -37,5 +42,10 @@ void lcd_set_pos(int posy, int posx);
 void write_nibble(unsigned char c, unsigned char offset);
 void lcd_send_apply(void);
 
-const char LCD_ROWS = 4;
-const char LCD_COLUMNS = 16;
+const char display_offsets[] = { 0x00, 0x40, 0x10, 0x50 };
+const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
+
+const char LCD_ROWS = sizeof(display_offsets) / sizeof(char);
+const char LCD_COLUMNS = 0x10;
+
+#endif
