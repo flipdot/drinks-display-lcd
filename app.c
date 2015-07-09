@@ -90,10 +90,13 @@ void lcd_set_pos(int posy, int posx) {
 }
 
 void lcd_send(lcd_message_type type, unsigned char c) {
+/*
     if (type == CMD)
-        digitalWrite(LCD_PIN_RS, 0); /* RS=0: Befehl folgt ... ******/
+        digitalWrite(LCD_PIN_RS, 0); // RS=0: Befehl folgt ... 
     else
-        digitalWrite(LCD_PIN_RS, 1); /* RS=1: Daten folgen ... ******/
+        digitalWrite(LCD_PIN_RS, 1); // RS=1: Daten folgen ... 
+*/
+    digitalWrite(LCD_PIN_RS, type);
 
     write_nibble(c, 4); // High nibble
     write_nibble(c, 0); // Low nibble
