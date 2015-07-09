@@ -101,18 +101,9 @@ void lcd_send(unsigned char type, unsigned char c) {
     else
         digitalWrite(LCD_PIN_RS, 1); /* RS=1: Daten folgen ... ******/
 
-    /* (1) HIGH NIBBLE wird gesendet ******/
+    write_nibble(c, 4); // High nibble
+    write_nibble(c, 0); // Low nibble
 
-    write_nibble(c, 4);
-
-    /* Flanke zur Übernahme der Daten senden ... ******/
-    digitalWrite(LCD_PIN_E, 1);
-    delay(1);
-    digitalWrite(LCD_PIN_E, 0);
-
-    write_nibble(c, 0);
-
-    /* (3) Auf den LCD Controller warten ...******/
     delay(5);
 }
 
@@ -121,6 +112,11 @@ void write_nibble(unsigned char c, unsigned char offset) {
     digitalWrite(LCD_PIN_D6, bit_is_set(c, offset + 2));
     digitalWrite(LCD_PIN_D5, bit_is_set(c, offset + 1));
     digitalWrite(LCD_PIN_D4, bit_is_set(c, offset + 0));
+
+    // Writing signal flag to apply data which is set to pins 
+    digitalWrite(LCD_PIN_E, 1);
+    delay(1);
+    digitalWrite(LCD_PIN_E, 0);
 }
 
 void lcd_clear() {
