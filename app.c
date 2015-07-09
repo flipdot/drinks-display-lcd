@@ -13,7 +13,6 @@ int main(int argc, char *argv[]) {
     delay(5);
     lcd_send(CMD, LCD_CURSOROFF);
     delay(5);
-    lcd_send(CMD, LCD_BLINKOFF);
     if (argc == 2) {
         lcd_clear();
         if (strlen(argv[1]) > 2) {
@@ -48,7 +47,7 @@ int main(int argc, char *argv[]) {
         lcd_write(price);
         lcd_set_pos(2, 0);
         lcd_write("New Balance:");
-        lcd_set_pos(3, 16 - 3);
+        lcd_set_pos(2, 16 - 3);
         lcd_write(newBalance);
     }
     return 0;
