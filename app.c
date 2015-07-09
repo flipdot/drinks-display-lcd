@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
         }
         char txt[4];
         sprintf(txt, "%d", argv[1]);
-        txt[4] = "€";
+        txt[4] = "E";
         lcd_write(txt);
     }
     return 0;
@@ -28,7 +28,6 @@ void lcd_write(char *t) {
         if (t[i] == '\0') {
             return;
         }
-        printf("i: %d c: %c\n", i, t[i]);
         lcd_send(DATA, t[i]);
     }
 }
