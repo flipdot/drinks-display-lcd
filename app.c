@@ -16,11 +16,11 @@ int main(int argc, char *argv[]) {
         if (strlen(argv[1]) > 3) {
             return 1;
         }
-        char txt[5];
-        sprintf(txt, "%3sE", argv[1]);
-        txt[4] = '\0';
+        char txt[4];
+        sprintf(txt, "%2sE", argv[1]);
+        txt[3] = '\0';
         printf("%s\n", txt);
-        lcd_set_pos(0, 16 - 4);
+        lcd_set_pos(0, 16 - 3);
         lcd_write(txt);
     }
     return 0;
