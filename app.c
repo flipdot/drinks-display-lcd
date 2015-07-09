@@ -165,12 +165,12 @@ void lcd_init() {
     lcd_clear();
 }
 
-void lcd_generate_char(uint8_t code, const uint8_t *data) {
+void lcd_generate_char(int code, const int *data) {
     // Startposition des Zeichens einstellen
     lcd_send(CMD, 0x40|(code<<3));
 
     // Bitmuster übertragen
-    for (uint8_t i=0; i<8; i++)
+    for (int i=0; i<8; i++)
     {
         lcd_send(DATA, data[i]);
     }
@@ -179,7 +179,7 @@ void lcd_generate_char(uint8_t code, const uint8_t *data) {
 void lcd_generate_chars() {
     lcd_send(CMD, 0x40|(0<<3));
     // custom character data: °, Battery empty, Battery..., Battery full
-    uint8_t data[8][8] = {
+    int data[8][8] = {
             {0b00110, 0b01001, 0b01001, 0b00110, 0b00000, 0b00000, 0b00000, 0b00000},
             {0b01110, 0b11011, 0b10101, 0b10101, 0b10001, 0b10101, 0b10001, 0b11111},
             {0b01110, 0b11011, 0b10001, 0b10001, 0b10001, 0b10001, 0b11111, 0b11111},
@@ -189,7 +189,7 @@ void lcd_generate_chars() {
             {0b01110, 0b11011, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
             {0b01110, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111, 0b11111},
     };
-    for (uint8_t i=0; i<8; i++) {
+    for (int i=0; i<8; i++) {
         lcd_generate_char(i, data[i]);
     }
 }
