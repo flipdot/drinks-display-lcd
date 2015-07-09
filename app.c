@@ -9,8 +9,17 @@ int main(int argc, char *argv[]) {
     if (argc == 2 && strcmp(argv[1], "--init") == 0) {
         lcd_init();
         return 0;
+    } else if (argc == 2) {
+        if (strlen(argv[1] > 3)) {
+            return 1;
+        }
+        char txt[4];
+        sprintf(txt, "%d", argv[1]);
+        txt[4] = "€";
+        lcd_write(txt);
     }
-    delay(300);
+    lcd_clear();
+    delay(5);
     lcd_write("Hellllö");
     delay(3000);
     lcd_write("Dani");
