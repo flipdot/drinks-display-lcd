@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
         sprintf(txt, "%2sE", argv[1]);
         txt[3] = '\0';
         printf("%s\n", txt);
+        lcd_write("Cur Balance:");
         lcd_set_pos(0, 16 - 3);
         lcd_write(txt);
     }
