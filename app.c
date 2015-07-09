@@ -3,6 +3,7 @@
 #include "app.h"
 #include <wiringPi.h>
 #include <string.h>
+#include <stdio.h>
 
 int main(int argc, char *argv[]) {
     wiringPiSetup();
@@ -50,18 +51,23 @@ int main(int argc, char *argv[]) {
         lcd_set_pos(2, 16 - 4);
         lcd_write(newBalance);
     } else {
-        while (true) {
-            for (int line = 0; line < 4; line++) {
-                for (int col = 0; col < 16; col++) {
+	lcd_clear();
+
+        while (1) {
+
+         for (int line = 0; line < 9001; line++) {
+                for (int col = 0; col < 20; col++) {
                     lcd_set_pos(line, col);
                     lcd_write("X");
-                    delay(1000);
+                    delay(100);
                     lcd_set_pos(line, col);
                     lcd_write(" ");
-                    delay(500);
+                    delay(50);
                 }
             }
         }
+
+//	lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
     }
     return 0;
 }
@@ -75,8 +81,12 @@ void lcd_write(char *t) {
     }
 }
 
+const char display_offsets[] = { 0x00, 0x40, 0x10, 0x50 };
+
 void lcd_set_pos(int posy, int posx) {
-    lcd_send(CMD, LCD_SETDDRAM + posx + 0x40 * posy);
+    posx %= 16;
+    posy %= (sizeof(display_offsets) / sizeof(char));
+    lcd_send(CMD, LCD_SETDDRAM | (posx | display_offsets[posy]));
     delay(1);
 }
 
@@ -178,8 +188,8 @@ void lcd_init() {
     delay(50);
 
 /* 2 Zeilen, 4-Bit Modus */
-//    lcd_send(CMD, 0x28);
-    lcd_send(CMD, 0x14);
+    lcd_send(CMD, 0x28);
+//    lcd_send(CMD, 0x14);
 
     lcd_send(CMD, LCD_OFF);
     lcd_send(CMD, LCD_CLEAR);
