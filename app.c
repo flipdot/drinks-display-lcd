@@ -5,7 +5,7 @@
 
 int main (int argc, char *argv[]) {
   wiringPiSetup();
-  if (strcmp(argv[0], "init") == 0) {
+  if (argc == 1 && strcmp(argv[1], "--init") == 0) {
     lcd_init();
     return;
   }
