@@ -163,8 +163,8 @@ void lcd_init() {
     delay(50);
 
 /* 2 Zeilen, 4-Bit Modus */
-    lcd_send(CMD, 0x28);
-    //lcd_send(CMD, 0x14);
+//    lcd_send(CMD, 0x28);
+    lcd_send(CMD, 0x14);
 
     lcd_send(CMD, LCD_OFF);
     lcd_send(CMD, LCD_CLEAR);
