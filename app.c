@@ -16,9 +16,9 @@ int main(int argc, char *argv[]) {
         if (strlen(argv[1]) > 3) {
             return 1;
         }
-        char txt[4];
-        sprintf(txt, "%d", argv[1]);
-        txt[4] = "E";
+        char txt[5];
+        sprintf(txt, "%dE", argv[1]);
+        txt[4] = '\0';
         lcd_write(txt);
     }
     return 0;
