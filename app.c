@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     lcd_clear();
     delay(5);
     if (argc == 2) {
-        if (strlen(argv[1]) > 3) {
+        if (strlen(argv[1]) > 2) {
             return 1;
         }
         char txt[4];
