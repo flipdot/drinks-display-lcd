@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
     }
     delay(5);
     lcd_send(CMD, LCD_CURSOROFF);
+    delay(5);
     lcd_send(CMD, LCD_BLINKOFF);
     if (argc == 2) {
         lcd_clear();
