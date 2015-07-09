@@ -102,20 +102,25 @@ void lcd_send(unsigned char type, unsigned char c) {
         digitalWrite(LCD_PIN_RS, 1); /* RS=1: Daten folgen ... ******/
 
     /* (1) HIGH NIBBLE wird gesendet ******/
-    for(int i = 7; i >= 0; --i) {
-        char current_pin = data_pins[(7 - i) % (sizeof(data_pins) / sizeof(char))];
-        digitalWrite(current_pin, bit_is_set(c, i));
 
-        if((i % LCD_ROWS) == 0) {
-            /* Flanke zur Übernahme der Daten senden ... ******/
-            digitalWrite(LCD_PIN_E, 1);
-            delay(1);
-            digitalWrite(LCD_PIN_E, 0);
-        }
-    }
+    write_nibble(c, 4);
+
+    /* Flanke zur Übernahme der Daten senden ... ******/
+    digitalWrite(LCD_PIN_E, 1);
+    delay(1);
+    digitalWrite(LCD_PIN_E, 0);
+
+    write_nibble(c, 0);
 
     /* (3) Auf den LCD Controller warten ...******/
     delay(5);
+}
+
+void write_nibble(unsigned char c, unsigned char offset) {
+    digitalWrite(LCD_PIN_D7, bit_is_set(c, offset + 3));
+    digitalWrite(LCD_PIN_D6, bit_is_set(c, offset + 2));
+    digitalWrite(LCD_PIN_D5, bit_is_set(c, offset + 1));
+    digitalWrite(LCD_PIN_D4, bit_is_set(c, offset + 0));
 }
 
 void lcd_clear() {
