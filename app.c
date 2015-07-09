@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     lcd_clear();
+    delay(5);
     if (argc == 2) {
         if (strlen(argv[1] > 3)) {
             return 1;
