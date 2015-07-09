@@ -35,6 +35,7 @@ void lcd_send(unsigned char type, unsigned char c);
 void lcd_write(char *t);
 void lcd_set_pos(int posy, int posx);
 void write_nibble(unsigned char c, unsigned char offset);
+void lcd_send_apply(void);
 
 const char LCD_ROWS = 4;
 const char LCD_COLUMNS = 16;

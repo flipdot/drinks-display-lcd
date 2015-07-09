@@ -113,6 +113,10 @@ void write_nibble(unsigned char c, unsigned char offset) {
     digitalWrite(LCD_PIN_D5, bit_is_set(c, offset + 1));
     digitalWrite(LCD_PIN_D4, bit_is_set(c, offset + 0));
 
+    lcd_send_apply();
+}
+
+void lcd_send_apply() {
     // Writing signal flag to apply data which is set to pins 
     digitalWrite(LCD_PIN_E, 1);
     delay(1);
@@ -124,7 +128,7 @@ void lcd_clear() {
 }
 
 void lcd_init() {
-/* Set ports as output */
+    // Set ports as output
     pinMode(LCD_PIN_RS, OUTPUT);
     pinMode(LCD_PIN_E, OUTPUT);
     pinMode(LCD_PIN_D4, OUTPUT);
@@ -135,23 +139,22 @@ void lcd_init() {
     // wait for lcd to be ready
     delay(50);
 
-/* configure 4-bit mode ------Function-Set 1*/
+   // configure 4 bit mode ------Function-Set 1
     digitalWrite(LCD_PIN_D5, 1);
     digitalWrite(LCD_PIN_D4, 0);
 
     delay(50);
-/* configure 4-bit mode ------Function-Set 2*/
+    // configure 4 bit mode ------Function-Set 2
     digitalWrite(LCD_PIN_D5, 1);
     digitalWrite(LCD_PIN_D4, 0);
 
     delay(50);
-/* configure 4-bit mode ------Function-Set 3*/
+    // configure 4 bit mode ------Function-Set 3
     digitalWrite(LCD_PIN_D5, 1);
     digitalWrite(LCD_PIN_D4, 0);
 
-/* 4-Bit Modus starten ... */
-    digitalWrite(LCD_PIN_E, 1);
-    digitalWrite(LCD_PIN_E, 0);
+    // apply 4 bit mode
+    lcd_send_apply();
     delay(50);
 
 /* 2 Zeilen, 4-Bit Modus */
