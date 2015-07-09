@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
         char curBalance[4];
         sprintf(curBalance, "%2sE\0", argv[1]);
         lcd_write("Cur Balance:");
-        lcd_set_pos(0, 16 - 3);
+        lcd_set_pos(0, 13);
         lcd_write(curBalance);
     } else if (argc == 4) {
         if (strlen(argv[1]) > 2) {
@@ -47,8 +47,21 @@ int main(int argc, char *argv[]) {
         lcd_write(price);
         lcd_set_pos(2, 0);
         lcd_write("New Balance:");
-        lcd_set_pos(2, 16 - 3);
+        lcd_set_pos(2, 16 - 4);
         lcd_write(newBalance);
+    } else {
+        while (true) {
+            for (int line = 0; line < 4; line++) {
+                for (int col = 0; col < 16; col++) {
+                    lcd_set_pos(line, col);
+                    lcd_write("X");
+                    delay(1000);
+                    lcd_set_pos(line, col);
+                    lcd_write(" ");
+                    delay(500);
+                }
+            }
+        }
     }
     return 0;
 }
