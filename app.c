@@ -90,6 +90,7 @@ void lcd_set_pos(int posy, int posx) {
     delay(1);
 }
 
+const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
 void lcd_send(unsigned char type, unsigned char c) {
     if (type == CMD)
         digitalWrite(LCD_PIN_RS, 0); /* RS=0: Befehl folgt ... ******/
@@ -97,26 +98,18 @@ void lcd_send(unsigned char type, unsigned char c) {
         digitalWrite(LCD_PIN_RS, 1); /* RS=1: Daten folgen ... ******/
 
     /* (1) HIGH NIBBLE wird gesendet ******/
-    digitalWrite(LCD_PIN_D7, bit_is_set(c, 7));
-    digitalWrite(LCD_PIN_D6, bit_is_set(c, 6));
-    digitalWrite(LCD_PIN_D5, bit_is_set(c, 5));
-    digitalWrite(LCD_PIN_D4, bit_is_set(c, 4));
+    for(int i = 7; i >= 0; --i) {
+        char current_pin = data_pins[i % (sizeof(data_pins) / sizeof(char))];
+        digitalWrite(current_pin, bit_is_set(c, i));
 
-    /* Flanke zur Übernahme der Daten senden ... ******/
-    digitalWrite(LCD_PIN_E, 1);
-    delay(1);
-    digitalWrite(LCD_PIN_E, 0);
-
-    /* (2) LOW NIBBLE wird gesendet ******/
-    digitalWrite(LCD_PIN_D7, bit_is_set(c, 3));
-    digitalWrite(LCD_PIN_D6, bit_is_set(c, 2));
-    digitalWrite(LCD_PIN_D5, bit_is_set(c, 1));
-    digitalWrite(LCD_PIN_D4, bit_is_set(c, 0));
-
-    /* Flanke zur uebernahme der Daten senden ... ******/
-    digitalWrite(LCD_PIN_E, 1);
-    delay(1);
-    digitalWrite(LCD_PIN_E, 0);
+        if((i % 4) == 0)
+        {
+            /* Flanke zur Übernahme der Daten senden ... ******/
+            digitalWrite(LCD_PIN_E, 1);
+            delay(1);
+            digitalWrite(LCD_PIN_E, 0);
+        }
+    }
 
     /* (3) Auf den LCD Controller warten ...******/
     delay(5);
