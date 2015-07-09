@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         char txt[5];
-        sprintf(txt, "%dE", argv[1]);
+        sprintf(txt, "%sE", argv[1]);
         txt[4] = '\0';
         printf("%s\n", txt);
         lcd_write(txt);
