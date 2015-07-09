@@ -3,11 +3,14 @@
 #include "app.h"
 #include <wiringPi.h>
 
-int main (void) {
-  wiringPiSetup() ;
-  lcd_init();
+int main (int argc, char *argv[]) {
+  wiringPiSetup();
+  if (strcmp(argv[0], "init") == 0) {
+    lcd_init();
+    return;
+  }
   delay(300);
-  lcd_write("Hellllo");
+  lcd_write("Hellllö");
   delay(3000);
   lcd_write("Dani");
   return 0 ;
