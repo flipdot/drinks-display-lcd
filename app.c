@@ -17,9 +17,10 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         char txt[5];
-        sprintf(txt, "%s€", argv[1]);
+        sprintf(txt, "%sE", argv[1]);
         txt[4] = '\0';
         printf("%s\n", txt);
+        lcd_set_pos(0, 16 - 4);
         lcd_write(txt);
     }
     return 0;
@@ -32,6 +33,10 @@ void lcd_write(char *t) {
         }
         lcd_send(DATA, t[i]);
     }
+}
+
+void lcd_set_pos(int posx, int posy) {
+    lcd_send(CMD, LCD_SETDDRAM + posx + 0x40 * posy);
 }
 
 void lcd_send(unsigned char type, unsigned char c) {

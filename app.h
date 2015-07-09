@@ -24,4 +24,5 @@
 void lcd_clear(void);
 void lcd_init(void);
 void lcd_send(unsigned char type, unsigned char c);
-void lcd_write(char *t); 
+void lcd_write(char *t);
+void lcd_set_pos(int posx, int posy);
