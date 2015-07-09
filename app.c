@@ -9,7 +9,9 @@ int main(int argc, char *argv[]) {
     if (argc == 2 && strcmp(argv[1], "--init") == 0) {
         lcd_init();
         return 0;
-    } else if (argc == 2) {
+    }
+    lcd_clear();
+    if (argc == 2) {
         if (strlen(argv[1] > 3)) {
             return 1;
         }
@@ -18,11 +20,6 @@ int main(int argc, char *argv[]) {
         txt[4] = "€";
         lcd_write(txt);
     }
-    lcd_clear();
-    delay(5);
-    lcd_write("Hellllö");
-    delay(3000);
-    lcd_write("Dani");
     return 0;
 }
 
