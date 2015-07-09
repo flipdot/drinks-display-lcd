@@ -26,6 +26,8 @@ typedef enum {
     DATA = 1
 } lcd_message_type;
 
+#define bit_is_set(sfr, bit) ((sfr & (1 << bit)) ? 1 : 0)
+
 // flags for display on/off control
 #define LCD_DISPLAYON 0x04
 #define LCD_DISPLAYOFF 0x00

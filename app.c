@@ -1,5 +1,3 @@
-#define bit_is_set(sfr, bit) ((sfr & (1 << bit)) ? 1 : 0)
-
 #include "app.h"
 #include <wiringPi.h>
 #include <string.h>
