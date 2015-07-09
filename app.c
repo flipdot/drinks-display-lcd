@@ -87,7 +87,7 @@ void lcd_write(char *t) {
 const char display_offsets[] = { 0x00, 0x40, 0x10, 0x50 };
 
 void lcd_set_pos(int posy, int posx) {
-    posx %= 16;
+    posx %= LCD_COLUMNS;
     posy %= (sizeof(display_offsets) / sizeof(char));
     lcd_send(CMD, LCD_SETDDRAM | (posx | display_offsets[posy]));
     delay(1);
@@ -106,7 +106,7 @@ void lcd_send(unsigned char type, unsigned char c) {
         char current_pin = data_pins[i % (sizeof(data_pins) / sizeof(char))];
         digitalWrite(current_pin, bit_is_set(c, i));
 
-        if((i % 4) == 0) {
+        if((i % LCD_ROWS) == 0) {
             /* Flanke zur Übernahme der Daten senden ... ******/
             digitalWrite(LCD_PIN_E, 1);
             delay(1);
