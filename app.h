@@ -38,7 +38,7 @@ typedef enum {
 
 void lcd_clear(void);
 void lcd_init(void);
-void lcd_send(lcd_message_type type, unsigned char c);
+void lcd_send(const lcd_message_type type, const unsigned char c);
 void lcd_write(const char *t);
 void lcd_set_pos(int posy, int posx);
 void write_nibble(const unsigned char c, const unsigned char offset);
