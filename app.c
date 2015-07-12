@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void lcd_write(char *t) {
+void lcd_write(const char *t) {
     for (int i = 0; i < 255; i++) {
         if (t[i] == '\0') {
             return;
@@ -89,7 +89,7 @@ void lcd_set_pos(int posy, int posx) {
     delay(1);
 }
 
-void lcd_send(lcd_message_type type, unsigned char c) {
+void lcd_send(const lcd_message_type type, const unsigned char c) {
 /*
     if (type == CMD)
         digitalWrite(LCD_PIN_RS, 0); // RS=0: Befehl folgt ... 
@@ -104,7 +104,7 @@ void lcd_send(lcd_message_type type, unsigned char c) {
     delay(5);
 }
 
-void write_nibble(unsigned char c, unsigned char offset) {
+void write_nibble(const unsigned char c, const unsigned char offset) {
     digitalWrite(LCD_PIN_D7, bit_is_set(c, offset + 3));
     digitalWrite(LCD_PIN_D6, bit_is_set(c, offset + 2));
     digitalWrite(LCD_PIN_D5, bit_is_set(c, offset + 1));

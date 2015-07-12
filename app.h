@@ -38,11 +38,12 @@ typedef enum {
 
 void lcd_clear(void);
 void lcd_init(void);
-void lcd_send(unsigned char type, unsigned char c);
-void lcd_write(char *t);
+void lcd_send(lcd_message_type type, unsigned char c);
+void lcd_write(const char *t);
 void lcd_set_pos(int posy, int posx);
-void write_nibble(unsigned char c, unsigned char offset);
+void write_nibble(const unsigned char c, const unsigned char offset);
 void lcd_send_apply(void);
+void lcd_generate_chars(void);
 
 const char display_offsets[] = { 0x00, 0x40, 0x10, 0x50 };
 const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
