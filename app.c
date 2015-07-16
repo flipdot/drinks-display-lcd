@@ -93,7 +93,7 @@ void lcd_set_pos(int posy, int posx) {
     posx %= LCD_COLUMNS; // Maybe just return if the position is out of bounds?
     posy %= LCD_ROWS;
     lcd_send(CMD, LCD_SETDDRAM | (posx | display_offsets[posy]));
-    usdelay(100);
+    delay(1);
 }
 
 void lcd_send(const lcd_message_type type, const unsigned char c) {
