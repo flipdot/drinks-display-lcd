@@ -54,8 +54,8 @@ int main(int argc, char *argv[]) {
 
         while (1) {
 
-         for (int line = 0; line < 9001; line++) {
-                for (int col = 0; col < 20; col++) {
+         for (int line = 0; line < LCD_ROWS; line++) {
+                for (int col = 0; col < LCD_COLUMNS; col++) {
                     lcd_set_pos(line, col);
                     lcd_write("X");
                     delay(100);
@@ -74,10 +74,11 @@ int main(int argc, char *argv[]) {
 }
 
 void lcd_write(const char *t) {
-    for (int i = 0; i < 255; i++) {
-        if (t[i] == '\0') {
-            return;
-        }
+    if (t == NULL) {
+        return;
+    }
+
+    for (int i = 0; t[i] != '\0'; ++i) {
         lcd_send(DATA, t[i]);
     }
 }
@@ -90,12 +91,6 @@ void lcd_set_pos(int posy, int posx) {
 }
 
 void lcd_send(const lcd_message_type type, const unsigned char c) {
-/*
-    if (type == CMD)
-        digitalWrite(LCD_PIN_RS, 0); // RS=0: Befehl folgt ... 
-    else
-        digitalWrite(LCD_PIN_RS, 1); // RS=1: Daten folgen ... 
-*/
     digitalWrite(LCD_PIN_RS, (int)type);
 
     write_nibble(c, 4); // High nibble
