@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[]) {
     wiringPiSetup();
+    lcd_send(CMD, LCD_CURSOROFF);
     if (argc == 2) {
         if (strcmp(argv[1], "--init") == 0) {
             lcd_init();
@@ -17,13 +18,10 @@ int main(int argc, char *argv[]) {
             printf("Example:\n");
             printf("First call: app 5\n");
             printf("Second call: app 4 1 Beer\n");
+            printf("or\n");
+            printf("Usage: app --raw justSomeTextToBeDisplayed\n");
             return 0;
         }
-    }
-    delay(5);
-    lcd_send(CMD, LCD_CURSOROFF);
-    delay(5);
-    if (argc == 2) {
         lcd_clear();
         if (strlen(argv[1]) > 2) {
             lcd_write("ERR: argv[1] > 2");
@@ -32,11 +30,21 @@ int main(int argc, char *argv[]) {
         char curBalance[4];
         snprintf(curBalance, sizeof(curBalance), "%2sE\0", argv[1]);
         lcd_set_pos(0, 0);
-        delay(5);
         lcd_write("Cur Balance:");
-        delay(5);
         lcd_set_pos(0, 13);
         lcd_write(curBalance);
+    } else if (argc == 3 && strcmp(argv[1], "--raw") == 0) {
+        lcd_clear();
+        for (int i=0; i<4; i++) {
+            if (strlen(argv[2]) <= 16 * i) {
+                break;
+            }
+            char line[17];
+            strncpy(line, &argv[2][i * 16], 16);
+            lcd_set_pos(i, 0);
+            line[16] = '\0';
+            lcd_write(line);
+        }
     } else if (argc == 4) {
         if (strlen(argv[1]) > 2) {
             lcd_clear();
@@ -85,7 +93,7 @@ void lcd_set_pos(int posy, int posx) {
     posx %= LCD_COLUMNS; // Maybe just return if the position is out of bounds?
     posy %= LCD_ROWS;
     lcd_send(CMD, LCD_SETDDRAM | (posx | display_offsets[posy]));
-    delay(1);
+    usdelay(100);
 }
 
 void lcd_send(const lcd_message_type type, const unsigned char c) {
@@ -94,7 +102,7 @@ void lcd_send(const lcd_message_type type, const unsigned char c) {
     write_nibble(c, 4); // High nibble
     write_nibble(c, 0); // Low nibble
 
-    delay(5);
+    delay(1);
 }
 
 void write_nibble(const unsigned char c, const unsigned char offset) {
