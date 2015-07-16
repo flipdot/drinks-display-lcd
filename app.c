@@ -5,10 +5,20 @@
 
 int main(int argc, char *argv[]) {
     wiringPiSetup();
-    if (argc == 2 && strcmp(argv[1], "--init") == 0) {
-        lcd_init();
-        lcd_generate_chars();
-        return 0;
+    if (argc == 2) {
+        if (strcmp(argv[1], "--init") == 0) {
+            lcd_init();
+            lcd_generate_chars();
+            return 0;
+        } else if (strcmp(argv[1], "--help") == 0) {
+            printf("Usage: app CURRENT_BALANCE\n");
+            printf("or\n");
+            printf("Usage: app NEW_BALANCE PRICE ARTICLE\n");
+            printf("Example:\n");
+            printf("First call: app 5\n");
+            printf("Second call: app 4 1 Beer\n");
+            return 0;
+        }
     }
     delay(5);
     lcd_send(CMD, LCD_CURSOROFF);
@@ -20,8 +30,11 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         char curBalance[4];
-        sprintf(curBalance, "%2sE\0", argv[1]);
+        snprintf(curBalance, sizeof(curBalance), "%2sE\0", argv[1]);
+        lcd_set_pos(0, 0);
+        delay(5);
         lcd_write("Cur Balance:");
+        delay(5);
         lcd_set_pos(0, 13);
         lcd_write(curBalance);
     } else if (argc == 4) {
@@ -38,9 +51,9 @@ int main(int argc, char *argv[]) {
         char newBalance[4];
         char price[4];
         char articleName[16 - 2];
-        sprintf(newBalance, "%2sE\0", argv[1]);
-        sprintf(price, "%2sE\0", argv[2]);
-        sprintf(articleName, "%-12s\0", argv[3]);
+        snprintf(newBalance, sizeof(newBalance), "%2sE\0", argv[1]);
+        snprintf(price, sizeof(price), "%2sE\0", argv[2]);
+        snprintf(articleName, sizeof(articleName), "%-12s\0", argv[3]);
         lcd_set_pos(1, 0);
         lcd_write(articleName);
         lcd_set_pos(1, 13);
@@ -51,25 +64,10 @@ int main(int argc, char *argv[]) {
         lcd_write(newBalance);
     } else {
 	    lcd_clear();
-
-        while (1) {
-
-         for (int line = 0; line < LCD_ROWS; line++) {
-                for (int col = 0; col < LCD_COLUMNS; col++) {
-                    lcd_set_pos(line, col);
-                    lcd_write("X");
-                    delay(100);
-                    lcd_set_pos(line, col);
-                    lcd_write(" ");
-                    delay(50);
-                }
-            }
-        }
-
         // lcd_write("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,.-#+<|!");
     }
-    lcd_set_pos(3, 15);
-    lcd_send(DATA, 0);
+    //lcd_set_pos(3, 15);
+    //lcd_send(DATA, 0);
     return 0;
 }
 
