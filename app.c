@@ -96,7 +96,7 @@ void lcd_send(const lcd_message_type type, const unsigned char c) {
     else
         digitalWrite(LCD_PIN_RS, 1); // RS=1: Daten folgen ... 
 */
-    digitalWrite(LCD_PIN_RS, type);
+    digitalWrite(LCD_PIN_RS, (int)type);
 
     write_nibble(c, 4); // High nibble
     write_nibble(c, 0); // Low nibble
@@ -193,4 +193,8 @@ void lcd_generate_chars() {
     for (int i=0; i<8; i++) {
         lcd_generate_char(i, data[i]);
     }
+}
+
+bool bit_is_set(int sfr, char bit) {
+	return (sfr & (1 << bit)) ? 1 : 0;
 }
