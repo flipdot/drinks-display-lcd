@@ -1,8 +1,7 @@
 # drinks-display-lcd
 
-
 1. Setup up hardware
 
-![our setup](setup.jpg)
+   ![our setup](setup.jpg)
 
-2. run the `compileAndRun.sh`
+2. Run `make`

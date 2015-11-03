@@ -1,8 +1,10 @@
 all: app
-app: app.c
+app: \
+	src/app.o \
+	src/main.o
 
 .PHONY: clean
 clean:
-	-rm app
+	rm -f *.o app
 
 CFLAGS=-std=c99 -lwiringPi -Wall -Wextra -pedantic
