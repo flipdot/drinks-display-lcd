@@ -1,5 +1,4 @@
-#ifndef APP_H
-#define APP_H
+#pragma once
 
 // #define LCDPORT       PORTD
 // #define LCDDDR        DDRD
@@ -52,5 +51,3 @@ const char data_pins[] = { LCD_PIN_D7, LCD_PIN_D6, LCD_PIN_D5, LCD_PIN_D4 };
 
 const char LCD_ROWS = sizeof(display_offsets) / sizeof(char);
 const char LCD_COLUMNS = 0x10;
-
-#endif // APP_H
